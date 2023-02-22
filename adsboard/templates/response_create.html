@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1>Ads</h1>
+<hr>
+<h5> You are responding to an ad <span style="color: #ff99cc;">{{advert.title}}</span> posted by {{advert.author}} </h5>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" value=" Save " />
+</form>
+{% endblock content %}

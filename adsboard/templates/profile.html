@@ -1,0 +1,40 @@
+{% extends 'flatpages/default.html' %}
+{% load filters_stat %}
+
+{% block content %}
+
+<h1>Adverts of {{ request.user.username }}</h1>
+<hr>
+
+{% if author_ads %}
+    <table align="center">
+
+         <tr>
+             <td><h4>Time of addition   </h4></td>
+             <td><h4>Author   </h4></td>
+             <td><h4>Title   </h4></td>
+             <td><h4>Category   </h4></td>
+             <td><h4>Description   </h4></td>
+             <td><h4>Unanswered response </h4></td>
+             <td><h4>Accepted response </h4></td>
+
+         </tr>
+         {% for a in author_ads %}
+         <tr>
+             <td>{{ a.time_add|date:'d M Y - G : i' }}</td>
+             <td>{{ a.author}}</td>
+             <td><a href="{{a.get_absolute_url}}">{{ a.title}}</a></td>
+             <td>{{ a.category}}</td>
+             <td>{{ a.short_resp}}</td>
+             <td><span style="color: #ff9900;">{{ a.response.all|status_delete|length }}</span></td>
+             <td><span style="color: #99cc00;">{{ a.response.all|status_accept|length }}</span><td>
+
+         <tr>
+         {% endfor %}
+    </table>
+
+{% else %}
+    <h2>There are no ads</h2>
+{% endif %}
+
+{% endblock content %}
