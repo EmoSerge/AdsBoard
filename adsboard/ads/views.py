@@ -46,17 +46,10 @@ class AdUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        if self.request.user != self.object.author:
+            return self.handle_no_permission()
         self.object.author = self.request.user
         return super().form_valid(form)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        if request.user == self.object.author:
-            self.object.post()
-            return HttpResponseRedirect(success_url)
-        else:
-            return self.handle_no_permission()
 
 
 class AdDelete(LoginRequiredMixin, DeleteView):
@@ -69,7 +62,7 @@ class AdDelete(LoginRequiredMixin, DeleteView):
         self.object = self.get_object()
         success_url = self.get_success_url()
         if request.user == self.object.author:
-            self.object.post()
+            self.object.delete()
             return HttpResponseRedirect(success_url)
         else:
             return self.handle_no_permission()
@@ -141,7 +134,7 @@ class RespDelete(LoginRequiredMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = reverse_lazy('profile')
-        if request.user == self.object.advert.author:
+        if (request.user == self.object.advert.author) or (request.user == self.object.buyer):
             self.object.status_delete = True
             self.object.save()
             return HttpResponseRedirect(success_url)

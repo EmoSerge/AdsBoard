@@ -3,7 +3,22 @@
 {% block content %}
 
 <h4>{{ resp.buyer }} response to {{ resp.advert }} </h4>
-{{ resp.text_resp }}
+<h5>{{ resp.text_resp }}</h5>
+<br>
+<br>
+<h4>
+{% if resp.status_delete == False %}
 
+    {% if request.user == resp.advert.author %}
+        {% if resp.status_accept == False %}
+        <td><a href="{{resp.get_absolute_url}}/accept"><span style="color: #99cc00;">Accept</span></a>
+        {% endif %}
+        <a href="{{resp.get_absolute_url}}/delete"><span style="color: #ff0000;">Delete</span></a></td>
+    {% endif %}
+    {% if request.user == resp.buyer %}
+        <a href="{{resp.get_absolute_url}}/delete"><span style="color: #ff0000;">Delete</span></a></td>
+    {% endif %}
+{% endif %}
+</h4>
 
 {% endblock content %}
