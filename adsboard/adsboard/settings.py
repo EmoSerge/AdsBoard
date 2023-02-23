@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'ads.apps.AdsConfig',
-
+    'django_filters',
 ]
 
 SITE_ID = 1

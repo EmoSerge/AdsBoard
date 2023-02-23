@@ -7,6 +7,7 @@
 <hr>
 
 {% if author_ads %}
+
     <table align="center">
 
          <tr>
@@ -21,6 +22,7 @@
          </tr>
          {% for a in author_ads %}
          <tr>
+
              <td>{{ a.time_add|date:'d M Y - G : i' }}</td>
              <td>{{ a.author}}</td>
              <td><a href="{{a.get_absolute_url}}">{{ a.title}}</a></td>

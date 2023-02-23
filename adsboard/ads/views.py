@@ -2,9 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from ads.forms import *
 
+from ads.forms import *
 from ads.models import *
+from ads.filters import AdFilter
 
 
 class AdsList(ListView):
@@ -13,6 +14,17 @@ class AdsList(ListView):
     template_name = 'ads.html'
     context_object_name = 'ads'
     paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = AdFilter(self.request.GET, queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
+
 
 
 class Ad(DetailView):
@@ -72,7 +84,6 @@ class UserAdsList(LoginRequiredMixin, ListView):
     ordering = '-time_add'
     template_name = 'profile.html'
     context_object_name = 'ads'
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
