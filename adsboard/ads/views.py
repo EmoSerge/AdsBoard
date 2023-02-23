@@ -67,19 +67,17 @@ class AdDelete(LoginRequiredMixin, DeleteView):
             return self.handle_no_permission()
 
 
-class UserAdsList(ListView):
+class UserAdsList(LoginRequiredMixin, ListView):
     model = Advert
     ordering = '-time_add'
     template_name = 'profile.html'
     context_object_name = 'ads'
-    paginate_by = 20
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         author_ads = Advert.objects.filter(author=self.request.user)
-        responses = Response.objects.filter(advert__author=self.request.user, status_delete=False)
         context['author_ads'] = author_ads
-        context['responses'] = responses
         return context
 
 
@@ -139,3 +137,16 @@ class RespDelete(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect(success_url)
         else:
             return self.handle_no_permission()
+
+
+class UserRespList(LoginRequiredMixin, ListView):
+    model = Response
+    ordering = '-time_resp'
+    template_name = 'user_resp.html'
+    context_object_name = 'resp'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_resp = Response.objects.filter(buyer=self.request.user)
+        context['user_resp'] = user_resp
+        return context

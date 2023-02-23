@@ -1,0 +1,43 @@
+{% extends 'flatpages/default.html' %}
+{% load filters_stat %}
+
+{% block content %}
+
+<h1>Responses of {{ request.user.username }}</h1>
+<hr>
+
+{% if user_resp %}
+    <table align="center">
+
+         <tr>
+             <td><h4>Time of addition   </h4></td>
+             <td><h4>Response   </h4></td>
+             <td><h4>Advert   </h4></td>
+             <td><h4>Satus   </h4></td>
+             <td><h4>Action   </h4></td>
+         </tr>
+         {% for r in user_resp %}
+         <tr>
+             <td>{{ r.time_resp|date:'d M Y - G : i' }}</td>
+             <td><a href="{{r.get_absolute_url}}">{{ r.text_resp}}</a></td>
+             <td><a href="{{r.advert.get_absolute_url}}">{{ r.advert.title}}</a></td>
+             {% if r.status_delete %}
+                <td><span style="color: #ff0000;">Deleted</span></td>
+             {% else %}
+                {% if r.status_accept %}
+                    <td><span style="color: #00ff00;">Accepted</span></td>
+                {% else %}
+                    <td><span style="color: #ff9900;">In waiting</span></td>
+                    <td><a href="{{r.get_absolute_url}}/delete"><span style="color: #ff0000;">Delete</span></a></td>
+                {% endif %}
+
+             {% endif %}
+         <tr>
+         {% endfor %}
+    </table>
+
+{% else %}
+    <h2>There are no ads</h2>
+{% endif %}
+
+{% endblock content %}

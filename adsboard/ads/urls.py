@@ -11,6 +11,7 @@ urlpatterns = [
    path('profile/', UserAdsList.as_view(), name='profile'),
    path('response/<int:pk>', Resp.as_view(), name='resp'),
    path('response/<int:pk>/accept', RespAccept.as_view(), name='resp_accept'),
-   path('response/<int:pk>/delete', RespDelete.as_view(), name='resp_delete')
+   path('response/<int:pk>/delete', RespDelete.as_view(), name='resp_delete'),
+   path('user_resp/', UserRespList.as_view(), name='user_resp'),
 
 ]
