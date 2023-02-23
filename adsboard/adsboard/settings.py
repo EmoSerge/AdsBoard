@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'ads',
+    'ads.apps.AdsConfig',
 
 ]
 

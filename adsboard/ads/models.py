@@ -53,7 +53,7 @@ class Response(models.Model):
     status_accept = models.BooleanField(default=False, verbose_name='Response accepted')
 
     def __str__(self):
-        return f'Response from {self.buyer} on ad {self.advert} by {self.advert.author}'
+        return f'Response from {self.buyer} on ad {self.advert} '
 
     def get_absolute_url(self):
         return reverse('resp', args=[str(self.id)])
